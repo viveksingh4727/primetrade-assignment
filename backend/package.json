@@ -5,6 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "build": "prisma generate && prisma migrate deploy",
     "start": "node --experimental-strip-types server.js",
     "dev": "nodemon --exec 'node --experimental-strip-types' server.js",
     "prisma:generate": "prisma generate",
