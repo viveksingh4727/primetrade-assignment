@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: primetrade-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: DATABASE_URL
+        fromDatabase:
+          name: primetrade-db
+          property: connectionString
+      - key: CLIENT_URL
+        sync: false
+
+databases:
+  - name: primetrade-db
+    databaseName: primetrade
+    user: primetrade
+    plan: free
