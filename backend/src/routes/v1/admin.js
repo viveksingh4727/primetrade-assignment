@@ -1,7 +1,8 @@
-const router = require("express").Router();
-const { getUsers, updateUserRole } = require("../../controllers/adminController");
-const { authenticate, requireRole } = require("../../middleware/auth");
+import { Router } from "express";
+import { getUsers, updateUserRole } from "../../controllers/adminController.js";
+import { authenticate, requireRole } from "../../middleware/auth.js";
 
+const router = Router();
 router.use(authenticate, requireRole("ADMIN"));
 
 /**
@@ -67,4 +68,4 @@ router.get("/users", getUsers);
  */
 router.patch("/users/:id/role", updateUserRole);
 
-module.exports = router;
+export default router;

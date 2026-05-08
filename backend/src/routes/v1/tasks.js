@@ -1,15 +1,16 @@
-const router = require("express").Router();
-const {
+import { Router } from "express";
+import {
   listTasks,
   createTask,
   getTask,
   updateTask,
   deleteTask,
-} = require("../../controllers/taskController");
-const { authenticate } = require("../../middleware/auth");
-const validate = require("../../middleware/validate");
-const { createTaskSchema, updateTaskSchema } = require("../../validators/taskValidators");
+} from "../../controllers/taskController.js";
+import { authenticate } from "../../middleware/auth.js";
+import validate from "../../middleware/validate.js";
+import { createTaskSchema, updateTaskSchema } from "../../validators/taskValidators.js";
 
+const router = Router();
 router.use(authenticate);
 
 /**
@@ -74,11 +75,9 @@ router.get("/", listTasks);
  *               status:
  *                 type: string
  *                 enum: [PENDING, IN_PROGRESS, COMPLETED, CANCELLED]
- *                 default: PENDING
  *               priority:
  *                 type: string
  *                 enum: [LOW, MEDIUM, HIGH]
- *                 default: MEDIUM
  *     responses:
  *       201:
  *         description: Task created
@@ -164,4 +163,4 @@ router.put("/:id", validate(updateTaskSchema), updateTask);
  */
 router.delete("/:id", deleteTask);
 
-module.exports = router;
+export default router;

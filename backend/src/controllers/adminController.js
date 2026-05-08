@@ -1,8 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
+import { prisma } from "../lib/prisma.js";
 
-const prisma = new PrismaClient();
-
-const getUsers = async (req, res, next) => {
+export const getUsers = async (req, res, next) => {
   try {
     const { page = 1, limit = 10 } = req.query;
     const skip = (Number(page) - 1) * Number(limit);
@@ -41,13 +39,12 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-const updateUserRole = async (req, res, next) => {
+export const updateUserRole = async (req, res, next) => {
   try {
     const { role } = req.body;
     if (!["USER", "ADMIN"].includes(role)) {
       return res.status(422).json({ success: false, message: "Invalid role" });
     }
-
     if (req.params.id === req.user.id) {
       return res.status(400).json({ success: false, message: "Cannot change your own role" });
     }
@@ -63,5 +60,3 @@ const updateUserRole = async (req, res, next) => {
     next(err);
   }
 };
-
-module.exports = { getUsers, updateUserRole };

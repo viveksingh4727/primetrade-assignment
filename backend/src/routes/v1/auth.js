@@ -1,8 +1,10 @@
-const router = require("express").Router();
-const { register, login, me } = require("../../controllers/authController");
-const { authenticate } = require("../../middleware/auth");
-const validate = require("../../middleware/validate");
-const { registerSchema, loginSchema } = require("../../validators/authValidators");
+import { Router } from "express";
+import { register, login, me } from "../../controllers/authController.js";
+import { authenticate } from "../../middleware/auth.js";
+import validate from "../../middleware/validate.js";
+import { registerSchema, loginSchema } from "../../validators/authValidators.js";
+
+const router = Router();
 
 /**
  * @swagger
@@ -82,8 +84,6 @@ router.post("/login", validate(loginSchema), login);
  *   get:
  *     summary: Get current authenticated user
  *     tags: [Auth]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Current user profile
@@ -92,4 +92,4 @@ router.post("/login", validate(loginSchema), login);
  */
 router.get("/me", authenticate, me);
 
-module.exports = router;
+export default router;

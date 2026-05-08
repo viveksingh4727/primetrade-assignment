@@ -1,7 +1,10 @@
-const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcryptjs");
+import "dotenv/config";
+import bcrypt from "bcryptjs";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "./generated/prisma/client.ts";
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const adminPassword = await bcrypt.hash("Admin@123", 12);
@@ -10,48 +13,20 @@ async function main() {
   const admin = await prisma.user.upsert({
     where: { email: "admin@primetrade.ai" },
     update: {},
-    create: {
-      email: "admin@primetrade.ai",
-      name: "Admin User",
-      password: adminPassword,
-      role: "ADMIN",
-    },
+    create: { email: "admin@primetrade.ai", name: "Admin User", password: adminPassword, role: "ADMIN" },
   });
 
   const user = await prisma.user.upsert({
     where: { email: "user@primetrade.ai" },
     update: {},
-    create: {
-      email: "user@primetrade.ai",
-      name: "Test User",
-      password: userPassword,
-      role: "USER",
-    },
+    create: { email: "user@primetrade.ai", name: "Test User", password: userPassword, role: "USER" },
   });
 
   await prisma.task.createMany({
     data: [
-      {
-        title: "Set up CI/CD pipeline",
-        description: "Configure GitHub Actions for automated testing and deployment",
-        status: "IN_PROGRESS",
-        priority: "HIGH",
-        userId: user.id,
-      },
-      {
-        title: "Write API documentation",
-        description: "Document all REST endpoints using Swagger",
-        status: "COMPLETED",
-        priority: "MEDIUM",
-        userId: user.id,
-      },
-      {
-        title: "Implement Redis caching",
-        description: "Add Redis caching layer for frequent database queries",
-        status: "PENDING",
-        priority: "LOW",
-        userId: user.id,
-      },
+      { title: "Set up CI/CD pipeline", description: "Configure GitHub Actions", status: "IN_PROGRESS", priority: "HIGH", userId: user.id },
+      { title: "Write API documentation", description: "Document all REST endpoints using Swagger", status: "COMPLETED", priority: "MEDIUM", userId: user.id },
+      { title: "Implement Redis caching", description: "Add Redis caching layer for frequent queries", status: "PENDING", priority: "LOW", userId: user.id },
     ],
     skipDuplicates: true,
   });
@@ -61,6 +36,4 @@ async function main() {
   console.log("User: ", user.email, "/ Password: User@123");
 }
 
-main()
-  .catch(console.error)
-  .finally(() => prisma.$disconnect());
+main().catch(console.error).finally(() => prisma.$disconnect());

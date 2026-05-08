@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const rateLimit = require("express-rate-limit");
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./config/swagger");
-const errorHandler = require("./middleware/errorHandler");
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import { rateLimit } from "express-rate-limit";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+import errorHandler from "./middleware/errorHandler.js";
+import routes from "./routes/index.js";
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use("/api/", limiter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get("/api-docs.json", (req, res) => res.json(swaggerSpec));
 
-app.use("/api/v1", require("./routes"));
+app.use("/api/v1", routes);
 
 app.get("/health", (req, res) =>
   res.json({ success: true, status: "healthy", timestamp: new Date().toISOString() })
@@ -37,4 +37,4 @@ app.use((req, res) =>
 
 app.use(errorHandler);
 
-module.exports = app;
+export default app;

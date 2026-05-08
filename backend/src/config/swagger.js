@@ -1,4 +1,8 @@
-const swaggerJsdoc = require("swagger-jsdoc");
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import swaggerJsdoc from "swagger-jsdoc";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const options = {
   definition: {
@@ -6,23 +10,13 @@ const options = {
     info: {
       title: "Primetrade API",
       version: "1.0.0",
-      description:
-        "Scalable REST API with JWT Authentication and Role-Based Access Control",
+      description: "Scalable REST API with JWT Authentication and Role-Based Access Control",
       contact: { name: "Primetrade.ai", email: "dev@primetrade.ai" },
     },
-    servers: [
-      {
-        url: "http://localhost:5000",
-        description: "Development server",
-      },
-    ],
+    servers: [{ url: "http://localhost:5001", description: "Development server" }],
     components: {
       securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
+        bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
       },
       schemas: {
         User: {
@@ -41,10 +35,7 @@ const options = {
             id: { type: "string" },
             title: { type: "string" },
             description: { type: "string" },
-            status: {
-              type: "string",
-              enum: ["PENDING", "IN_PROGRESS", "COMPLETED", "CANCELLED"],
-            },
+            status: { type: "string", enum: ["PENDING", "IN_PROGRESS", "COMPLETED", "CANCELLED"] },
             priority: { type: "string", enum: ["LOW", "MEDIUM", "HIGH"] },
             userId: { type: "string" },
             createdAt: { type: "string", format: "date-time" },
@@ -63,7 +54,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: ["./src/routes/v1/*.js"],
+  apis: [join(__dirname, "../routes/v1/*.js")],
 };
 
-module.exports = swaggerJsdoc(options);
+export default swaggerJsdoc(options);
