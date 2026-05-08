@@ -28,10 +28,9 @@ export default function Register() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">
-          <span className="brand-icon">⚡</span>
-          <h1>Primetrade.ai</h1>
-          <p>Create your account</p>
+        <div className="auth-header">
+          <h1>Create account</h1>
+          <p>Primetrade.ai task management</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -42,12 +41,12 @@ export default function Register() {
           )}
 
           <div className="form-group">
-            <label>Full Name</label>
+            <label>Full name</label>
             <input
               type="text"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="John Doe"
+              placeholder="Jane Smith"
               required
               autoFocus
             />
@@ -70,21 +69,18 @@ export default function Register() {
               type="password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="Min 8 chars, upper + lower + number"
+              placeholder="Min 8 characters"
               required
             />
           </div>
 
           <button type="submit" disabled={loading} className="btn btn-primary btn-full">
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
         <div className="auth-footer">
-          <p>
-            Already have an account?{" "}
-            <Link to="/login" className="auth-link">Sign in</Link>
-          </p>
+          Already have an account? <Link to="/login" className="auth-link">Sign in</Link>
         </div>
       </div>
     </div>

@@ -15,19 +15,16 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">
-        <span className="brand-icon">⚡</span>
-        <span className="brand-name">Primetrade.ai</span>
-      </div>
+      <span className="brand-name">Primetrade.ai</span>
 
       {user && (
         <div className="navbar-links">
           <Link to="/dashboard" className={`nav-link ${isActive("/dashboard") ? "active" : ""}`}>
-            Dashboard
+            Tasks
           </Link>
           {user.role === "ADMIN" && (
             <Link to="/admin" className={`nav-link ${isActive("/admin") ? "active" : ""}`}>
-              Admin
+              Users
             </Link>
           )}
         </div>
@@ -38,7 +35,7 @@ export default function Navbar() {
           <span className="user-badge">{user.role}</span>
           <span className="user-name">{user.name}</span>
           <button onClick={handleLogout} className="btn btn-outline btn-sm">
-            Logout
+            Sign out
           </button>
         </div>
       )}

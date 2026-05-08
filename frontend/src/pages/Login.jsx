@@ -26,10 +26,9 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">
-          <span className="brand-icon">⚡</span>
-          <h1>Primetrade.ai</h1>
-          <p>Sign in to your account</p>
+        <div className="auth-header">
+          <h1>Sign in</h1>
+          <p>Primetrade.ai task management</p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
@@ -59,21 +58,18 @@ export default function Login() {
           </div>
 
           <button type="submit" disabled={loading} className="btn btn-primary btn-full">
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
         <div className="auth-footer">
-          <p>
-            Don't have an account?{" "}
-            <Link to="/register" className="auth-link">Create one</Link>
-          </p>
+          No account? <Link to="/register" className="auth-link">Create one</Link>
         </div>
 
         <div className="demo-creds">
           <p className="demo-title">Demo credentials</p>
-          <p>Admin: admin@primetrade.ai / Admin@123</p>
-          <p>User: user@primetrade.ai / User@123</p>
+          <p>admin@primetrade.ai / Admin@123</p>
+          <p>user@primetrade.ai / User@123</p>
         </div>
       </div>
     </div>

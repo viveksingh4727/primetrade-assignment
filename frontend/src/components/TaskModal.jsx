@@ -11,7 +11,12 @@ export default function TaskModal({ task, onSave, onClose }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (task) setForm({ title: task.title, description: task.description || "", status: task.status, priority: task.priority });
+    if (task) setForm({
+      title: task.title,
+      description: task.description || "",
+      status: task.status,
+      priority: task.priority,
+    });
   }, [task]);
 
   const handleSubmit = async (e) => {
@@ -32,7 +37,7 @@ export default function TaskModal({ task, onSave, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>{task ? "Edit Task" : "New Task"}</h2>
+          <h2>{task ? "Edit task" : "New task"}</h2>
           <button onClick={onClose} className="modal-close">✕</button>
         </div>
 
@@ -40,12 +45,13 @@ export default function TaskModal({ task, onSave, onClose }) {
           {error && <div className="alert alert-error">{error}</div>}
 
           <div className="form-group">
-            <label>Title *</label>
+            <label>Title</label>
             <input
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="Task title"
               required
+              autoFocus
             />
           </div>
 
@@ -54,7 +60,7 @@ export default function TaskModal({ task, onSave, onClose }) {
             <textarea
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
-              placeholder="Optional description"
+              placeholder="Optional"
               rows={3}
             />
           </div>
@@ -64,7 +70,7 @@ export default function TaskModal({ task, onSave, onClose }) {
               <label>Status</label>
               <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
                 <option value="PENDING">Pending</option>
-                <option value="IN_PROGRESS">In Progress</option>
+                <option value="IN_PROGRESS">In progress</option>
                 <option value="COMPLETED">Completed</option>
                 <option value="CANCELLED">Cancelled</option>
               </select>
@@ -82,7 +88,7 @@ export default function TaskModal({ task, onSave, onClose }) {
           <div className="modal-actions">
             <button type="button" onClick={onClose} className="btn btn-outline">Cancel</button>
             <button type="submit" disabled={loading} className="btn btn-primary">
-              {loading ? "Saving..." : task ? "Update" : "Create"}
+              {loading ? "Saving..." : task ? "Save" : "Create"}
             </button>
           </div>
         </form>
